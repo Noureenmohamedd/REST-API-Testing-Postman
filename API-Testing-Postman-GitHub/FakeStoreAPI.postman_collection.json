@@ -1,0 +1,787 @@
+{
+	"info": {
+		"_postman_id": "195f2d66-28d2-47d6-8aeb-43e07176255b",
+		"name": "FakeStoreAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "40691330",
+		"_collection_link": "https://testing-team-7627-3395.postman.co/workspace/%2C-Workspace~1e053c23-4f60-49ee-bd8f-4216a3456324/collection/38514490-195f2d66-28d2-47d6-8aeb-43e07176255b?action=share&source=collection_link&creator=40691330"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID exists and is a number\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");     \r",
+									"    pm.expect(jsonData.id).to.exist;  \r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"username\": \"Noureen\",\r\n  \"email\": \"Noureen@example.com\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is a non-empty array\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response includes token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"token\");\r",
+									"    pm.expect(jsonData.token).to.be.a(\"string\").that.is.not.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"mor_2314\", \"password\": \"83r5^_\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create User (without username)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for missing username\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"email\": \"Noureen@example.com\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create User (with invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for invalid email\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"username\": \"Noureen\",\r\n  \"email\": \"Nour\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get A Specific User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for invalid path\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/users/invalidPath"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Login Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401 for wrong username and correct password\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"@\", \"password\": \"83r5^_\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://fakestoreapi.com/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User not JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (text not JSON)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"mor_2314\", \"password\": \"83r5^_\"}",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Management",
+			"item": [
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is a non-empty array\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"mor_2314\", \"password\": \"83r5^_\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Product has a title field\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"title\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"mor_2314\", \"password\": \"83r5^_\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/products/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 406 for non acceptable response type (xml)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(406);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"url": "{{BASE_URL}}/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get Product By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for non integer id\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://fakestoreapi.com/products/9.9"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get Product By ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for huge number\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/products/99999999999999999999999999999999999999999999999999"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart Management",
+			"item": [
+				{
+					"name": "Create Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains cart ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\"); \r",
+									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"userId\": 123,\r\n  \"products\": [\r\n    {\r\n      \"id\": 101,\r\n      \"title\": \"Product 1\",\r\n      \"price\": 29.99,\r\n      \"description\": \"This is product 1\",\r\n      \"category\": \"electronics\",\r\n      \"image\": \"https://product1.com\"\r\n    },\r\n    {\r\n      \"id\": 102,\r\n      \"title\": \"Product 2\",\r\n      \"price\": 49.99,\r\n      \"description\": \"This is product 2.\",\r\n      \"category\": \"electronics\",\r\n      \"image\": \"https://product2.com\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Cart By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID and products exist\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"userId\");\r",
+									"    pm.expect(jsonData.userId).to.exist;\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property(\"products\");\r",
+									"    pm.expect(jsonData.products).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData.products.length).to.be.greaterThan(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"userId\": 123,\r\n  \"products\": [\r\n    {\r\n      \"id\": 101,\r\n      \"title\": \"Product 1\",\r\n      \"price\": 29.99,\r\n      \"description\": \"This is product 1\",\r\n      \"category\": \"electronics\",\r\n      \"image\": \"https://product1.com\"\r\n    },\r\n    {\r\n      \"id\": 102,\r\n      \"title\": \"Product 2\",\r\n      \"price\": 49.99,\r\n      \"description\": \"This is product 2.\",\r\n      \"category\": \"electronics\",\r\n      \"image\": \"https://product2.com\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/carts/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Carts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is a non-empty array\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (XML not JSON)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<order>\r\n  <id>1</id>\r\n  <userId>123</userId>\r\n  <products>\r\n    <product>\r\n      <id>101</id>\r\n      <title>Product 1</title>\r\n      <price>29.99</price>\r\n      <description>This is product 1</description>\r\n      <category>electronics</category>\r\n      <image>https://product1.com</image>\r\n    </product>\r\n    <product>\r\n      <id>102</id>\r\n      <title>Product 2</title>\r\n      <price>49.99</price>\r\n      <description>This is product 2.</description>\r\n      <category>electronics</category>\r\n      <image>https://product2.com</image>\r\n    </product>\r\n  </products>\r\n</order>\r\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Cart (with empty cart)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (Empty Body)\", ()=> {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get Single Cart By ID (with non existing id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for non existing id (not in right form) \", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/9000000000000000"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get Single Cart By ID (non int)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (non int id)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/1.9"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Delete Cart (non-integer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (non int id)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/1.9"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Delete Cart (non existing)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (non existing id)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/9000000000000000"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get All Carts (invalid path)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 for bad request (invalid path)\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/carts/invalid"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
